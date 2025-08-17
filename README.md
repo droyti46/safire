@@ -6,6 +6,10 @@
 
 **Safire** is a Python library for rapid testing of language models for jailbreaking. It was developed as part of the [Red-Teaming Challenge hackathon](https://www.kaggle.com/competitions/openai-gpt-oss-20b-red-teaming/overview) by OpenAI.
 
+<div align="center">
+  <img src="img/safire_pipeline.png" width=400px>
+</div>
+
 # Installation
 
 Albumentations requires Python 3.9 or higher. To install the latest version from GitHub:
@@ -13,6 +17,10 @@ Albumentations requires Python 3.9 or higher. To install the latest version from
 ```bash
 pip install --upgrade git+https://github.com/droyti46/safire.git
 ```
+
+# Documentation
+
+In progress
 
 # Quick Start
 
@@ -39,4 +47,11 @@ Developed by the team "Сидим не рыпаемся"
 
 <div align="center">
   <img src="img/snr_logo.png" width=400px>
+</div>
+
+<br>
+
+<div style="text-align: center;">
+  <a href="https://github.com/droyti46">Nikita Bakutov</a> | 
+  <a href="https://github.com/Bitmann0">Andrey Chetveryakov</a>
 </div>
