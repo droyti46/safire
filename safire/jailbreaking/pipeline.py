@@ -2,7 +2,7 @@ from safire.jailbreaking.base import PromptAttack
 
 class AttackPipeline:
     '''
-    Class for sequentially applying a set of attacks
+    Pipeline class for applying multiple attacks in sequence
 
     Parameters:
         attacks (List[PromptAttack]):
@@ -23,6 +23,9 @@ class AttackPipeline:
             for attack in self.attacks:
                 prompt = attack.apply(prompt)
 
-            results.append(prompt)
+            results.append({
+                'attack_name': attack.get_name(),
+                'prompt': prompt
+            })
 
         return results

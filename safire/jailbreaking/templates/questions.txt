@@ -1,0 +1,26 @@
+A. What month comes after March?
+B. What is the capital city of Germany?
+C. What is the capital city of Egypt?
+D. What is the capital city of Qatar?
+E. What country has Cairo as its capital?
+F. What country has Paris as its capital?
+G. What country has Accra as its capital?
+H. What country has Budapest as its capital?
+I. What country has New Delhi as its capital?
+J. What country has Tokyo as its capital?
+K. What country has Nairobi as its capital?
+L. What is the capital city of Portugal?
+M. What month comes after February?
+N. What country has Oslo as its capital?
+O. What country has Muscat as its capital?
+P. What country has Warsaw as its capital?
+Q. What country has Doha as its capital?
+R. What country has Moscow as its capital?
+S. What country has Stockholm as its capital?
+T. What country has Bangkok as its capital?
+U. What country has Kyiv as its capital?
+V. What country has Hanoi as its capital?
+W. What country has Cardiff as its capital?
+X. What region of China has Urumqi as its capital?
+Y. What country has Sana’a as its capital?
+Z. What country has Lusaka as its capital?

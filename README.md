@@ -40,7 +40,7 @@ attack_prompts = attack([
 ])
 ```
 
-The pipeline will return a list of dictionaries in the form `[{attack_type: "qwestions_puzzle_attack", "prompt": "..."}]`
+The pipeline will return a list of dictionaries in the form `[{attack_name: "qwestions_puzzle_attack", "prompt": "..."}]`
 
 # Authors
 
