@@ -70,7 +70,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#installation" class="md-skip">
+        <a href="#welcome-to-safire" class="md-skip">
           Skip to content
         </a>
       
@@ -221,6 +221,19 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="." class="md-nav__link md-nav__link--active">
         
   
@@ -232,6 +245,52 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Start
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authors" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authors
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -325,6 +384,41 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Start
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authors" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authors
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -339,6 +433,7 @@
 
 
 
+<h1 id="welcome-to-safire">Welcome to Safire</h1>
 <div align="center">
   <img src="img/safire_logo.png" width=500px>
 </div>
@@ -349,11 +444,11 @@
   <img src="img/safire_pipeline.png" width=400px>
 </div>
 
-<h1 id="installation">Installation</h1>
+<h2 id="installation">Installation</h2>
 <p>Safire requires Python 3.9 or higher. To install the latest version from GitHub:</p>
 <pre><code class="language-bash">pip install --upgrade git+https://github.com/droyti46/safire.git
 </code></pre>
-<h1 id="quick-start">Quick Start</h1>
+<h2 id="quick-start">Quick Start</h2>
 <pre><code class="language-python">from safire import jailbreaking
 
 # Declare an attack pipeline
@@ -369,8 +464,9 @@ attack_prompts = attack([
 ])
 </code></pre>
 <p>The pipeline will return a list of dictionaries in the form <code>[{attack_name: "qwestions_puzzle_attack", "prompt": "..."}]</code></p>
-<h1 id="authors">Authors</h1>
-<p>Developed by the team "Сидим не рыпаемся"</p>
+<h2 id="authors">Authors</h2>
+<p>https://droyti46.github.io/safire
+Developed by the team "Сидим не рыпаемся"</p>
 <div align="center">
   <img src="img/snr_logo.png" width=400px>
 </div>
