@@ -1,0 +1,13 @@
+site_name: Safire
+
+theme:
+  name: material
+  logo: img/logo.png
+  palette:
+    - scheme: slate
+      primary: blue
+
+nav:
+  - Home: index.md
+  - Jailbreaking:
+      - QwestionsPuzzleAttack: jailbreakings/qwestions_puzzle_attack.md

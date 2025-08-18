@@ -18,10 +18,6 @@ Safire requires Python 3.9 or higher. To install the latest version from GitHub:
 pip install --upgrade git+https://github.com/droyti46/safire.git
 ```
 
-# Documentation
-
-The full documentation is available at https://droyti46.github.io/safire/.
-
 # Quick Start
 
 ```python
@@ -52,4 +48,7 @@ Developed by the team "Сидим не рыпаемся"
 
 <br>
 
-[Nikita Bakutov](https://github.com/droyti46) | [Andrey Chetveryakov](https://github.com/Bitmann0)
+<div style="text-align: center;">
+  <a href="https://github.com/droyti46">Nikita Bakutov</a> | 
+  <a href="https://github.com/Bitmann0">Andrey Chetveryakov</a>
+</div>
