@@ -29,8 +29,8 @@ from safire import jailbreaking
 
 # Declare an attack pipeline
 attack = jailbreaking.AttackPipeline([
-    jailbreaking.QwestionsPuzzleAttack(random_masked_words_num=4),
-    jailbreaking.SomethingAttack(parameter=2)
+    jailbreaking.template.QwestionsPuzzleAttack(random_masked_words_num=4),
+    jailbreaking.template.SomethingAttack(parameter=2)
 ])
 
 # Format prompts for attack

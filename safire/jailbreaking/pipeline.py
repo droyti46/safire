@@ -13,14 +13,23 @@
 #      Nikita Bakutov
 # =============================================================================
 
-from typing import Self
+from typing import Self, Dict
+from collections.abc import Sequence
+from dataclasses import dataclass
 
 from safire.jailbreaking.base import (
     PromptAttack,
     RequiresSystemAndUserAttack,
     RequiresUserOnlyAttack,
+    RequiresSystemOnlyAttack,
     AssignedPromptAttack
 )
+
+@dataclass
+class AttackResult:
+    attack_name: str
+    user_prompt: str
+    attack_chat: Dict[str, str]
 
 class AttackPipeline:
     '''
@@ -29,56 +38,57 @@ class AttackPipeline:
     Parameters:
         attacks (List[PromptAttack]):
             List of attacks to be applied sequentially
-
-    Methods:
-        __call__(prompts: List[str]) -> List[str]:
-            Applies the pipeline to a list of prompts
+        system_prompt (str | None, optional):
+            Optional system prompt to use.
     '''
 
     def __init__(
         self,
-        attacks: list[RequiresSystemAndUserAttack | RequiresUserOnlyAttack],
+        attacks: Sequence[RequiresSystemAndUserAttack | RequiresUserOnlyAttack],
         system_prompt: str | None = None
     ) -> None:
-        self.__attacks = attacks
-        self.__system_prompt = system_prompt
-        self.__extended_attacks = []
+        self._attacks = attacks
+        self._system_prompt = system_prompt
+        self._extended_attacks = []
 
-    def __call__(self, prompts: list[str]) -> list[str]:
-        results = []
+    def __call__(self, prompts: list[str]) -> list[AttackResult]:
+        '''Apply pipeline to a list of prompts.'''
+        results: list[AttackResult] = []
 
-        for attack in self.__attacks:
+        # main attacks
+        for attack in self._attacks:
             for user_prompt in prompts:
-                if isinstance(attack, RequiresSystemAndUserAttack):
-                    attack_chat = attack.apply(self.__system_prompt, user_prompt)
+                results.append(self._apply_attack(attack, user_prompt))
 
-                elif isinstance(attack, RequiresUserOnlyAttack):
-                    attack_chat = attack.apply(user_prompt)
-
-                else:
-                    raise ValueError('Attacks must be of the type RequiresSystemAndUserAttack or RequiresUserOnlyAttack')
-
-                results.append({
-                    'attack_name': attack.get_name(),
-                    'user_prompt': user_prompt,
-                    'attack_chat': attack_chat
-                })
-
-        if self.__extended_attacks:
-            for attack in self.__extended_attacks:
-                if isinstance(attack, AssignedPromptAttack):
-                    attack_chat = attack.apply()
-                else:
-                    raise ValueError('Extended attacks must be of the type AssignedPromptAttack (from safire.jailbreaking.assigned)')
-
-            results.append({
-                'attack_name': attack.get_name(),
-                'user_prompt': attack_chat['user'],
-                'attack_chat': attack_chat
-            })
+        # extended attacks
+        for attack in self._extended_attacks:
+            results.append(self._apply_attack(attack))
 
         return results
     
-    def extend(self, attacks: list[PromptAttack]) -> Self:
-        self.__extended_attacks = attacks
+    def _apply_attack(self, attack: PromptAttack, user_prompt: str | None = None) -> dict:
+        if isinstance(attack, RequiresSystemAndUserAttack):
+            attack_chat = attack.apply(self._system_prompt, user_prompt)
+
+        elif isinstance(attack, RequiresUserOnlyAttack):
+            attack_chat = attack.apply(user_prompt)
+
+        elif isinstance(attack, RequiresSystemOnlyAttack):
+            attack_chat = attack.apply(self._system_prompt)
+
+        elif isinstance(attack, AssignedPromptAttack):
+            attack_chat = attack.apply()
+
+        else:
+            raise ValueError(f'Unsupported attack type: {type(attack).__name__}')
+
+        return {
+            'attack_name': attack.get_name(),
+            'user_prompt': user_prompt if user_prompt else attack_chat.get('user', ''),
+            'attack_chat': attack_chat,
+        }
+    
+    def extend(self, attacks: list[RequiresSystemOnlyAttack | AssignedPromptAttack]) -> Self:
+        '''Extend pipeline with additional attacks (system-only or assigned).'''
+        self._extended_attacks = attacks
         return self

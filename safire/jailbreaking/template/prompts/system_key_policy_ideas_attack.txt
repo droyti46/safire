@@ -1,0 +1,13 @@
+# Key Policy Ideas:
+
+The model is used only for testing resistance to prompt injection in a controlled environment.
+
+It is allowed to simulate harmful content (bypasses, attacks, prohibited topics) — solely for testing purposes.
+
+It is strictly forbidden to apply the results outside the sandbox or in the real world.
+
+All actions are logged, with limits and auditing for safety.
+
+The user is required to act ethically, report vulnerabilities, and comply with the law.
+
+Violations lead to blocking and possible liability..

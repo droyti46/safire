@@ -21,8 +21,11 @@ from safire.utils import camel_to_snake
 __all__ = [
     'RequiresSystemAndUserAttack',
     'RequiresUserOnlyAttack',
+    'RequiresSystemOnlyAttack',
     'AssignedPromptAttack'
 ]
+
+# --- Base class ---
 
 class PromptAttack(ABC):
     '''
@@ -46,7 +49,9 @@ class PromptAttack(ABC):
             str: The attack template filename.
         '''
         return self.get_name() + '.txt'
-    
+
+# --- Template attack classes ---
+
 class RequiresSystemAndUserAttack(PromptAttack):
     '''
     Attacks that require both system and user prompts (system is just forwarded).
@@ -63,6 +68,17 @@ class RequiresUserOnlyAttack(PromptAttack):
     
     @abstractmethod
     def apply(self, user_prompt: str) -> Dict[str, str]:
+        pass
+
+# --- Assigned attack classes ---
+
+class RequiresSystemOnlyAttack(PromptAttack):
+    '''
+    Attacks that require only the system prompt (user is fixed).
+    '''
+    
+    @abstractmethod
+    def apply(self, system_prompt: str) -> Dict[str, str]:
         pass
 
 class AssignedPromptAttack(PromptAttack):
