@@ -13,8 +13,10 @@
 #      Nikita Bakutov
 # =============================================================================
 
+import re
 import random
 import importlib
+from typing import Dict
 
 def set_seed(seed: int) -> None:
     '''
@@ -81,3 +83,50 @@ def load_jailbreaking_template_prompt(name: str) -> str:
     return importlib.resources.files('safire.jailbreaking.template.prompts') \
                               .joinpath(name) \
                               .read_text(encoding='utf-8')
+
+def create_chat(system_prompt: str | None, user_prompt: str) -> Dict[str, str]:
+    '''
+    Creates a chat message dictionary with optional system prompt and user prompt.
+    
+    Parameters:
+        system_prompt (str | None)
+        user_prompt (str)
+    
+    Returns:
+        Dict[str, str]:
+            A dictionary containing chat messages with role-based keys:
+            - If system_prompt is provided: {'system': system_prompt, 'user': user_prompt}
+            - If system_prompt is None: {'user': user_prompt}
+    
+    Examples:
+        >>> create_chat("You are a helpful assistant", "Hello!")
+        {'system': 'You are a helpful assistant', 'user': 'Hello!'}
+        
+        >>> create_chat(None, "What's the weather today?")
+        {'user': "What's the weather today?"}
+    '''
+    if system_prompt is None:
+        return {'user': user_prompt}
+    return {
+        'system': system_prompt,
+        'user': user_prompt
+    }
+
+def camel_to_snake(name: str) -> str:
+    '''
+    Convert CamelCase string to snake_case.
+    
+    Parameters:
+        name: CamelCase string to convert
+        
+    Returns:
+        snake_case version of input string
+        
+    Examples:
+        >>> camel_to_snake("CamelCase")
+        'camel_case'
+        >>> camel_to_snake("HTTPRequest")
+        'http_request'
+    '''
+    name = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
+    return re.sub('([a-z0-9])([A-Z])', r'\1_\2', name).lower()

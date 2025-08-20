@@ -16,7 +16,7 @@
 import re
 from typing import Dict
 
-from safire.utils import mask_random_words, load_jailbreaking_template_prompt
+from safire import utils
 from safire.constants import LETTERS
 from safire.jailbreaking.base import RequiresSystemAndUserAttack
 
@@ -67,12 +67,12 @@ class QuestionsPuzzleAttack(RequiresSystemAndUserAttack):
     def __init__(self, random_masked_words_num: int = 3) -> None:
         super().__init__()
         self.__random_masked_words_num = random_masked_words_num
-        self.__template = load_jailbreaking_template_prompt(self.get_filename_template())
-        self.__questions_list = load_jailbreaking_template_prompt('questions.txt').splitlines()
+        self.__template = utils.load_jailbreaking_template_prompt(self.get_filename_template())
+        self.__questions_list = utils.load_jailbreaking_template_prompt('questions.txt').splitlines()
 
-    def apply(self, system_promt: str, user_prompt: str) -> Dict[str, str]:
+    def apply(self, system_prompt: str, user_prompt: str) -> Dict[str, str]:
         # Mask random words
-        masked_user_prompt = mask_random_words(user_prompt, n=self.__random_masked_words_num)
+        masked_user_prompt = utils.mask_random_words(user_prompt, n=self.__random_masked_words_num)
 
         # Extract placeholders like [word]
         placeholders = re.findall(r'\[(.*?)\]', masked_user_prompt)
@@ -91,12 +91,4 @@ class QuestionsPuzzleAttack(RequiresSystemAndUserAttack):
             question_block += encode_word(word, self.__questions_list) + '\n\n'
         body = body.replace('[QUESTIONS]', question_block)
 
-        chat = {
-            'system': system_promt,
-            'user': body
-        }
-
-        return chat
-    
-    def get_name(self) -> str:
-        return 'questions_puzzle_attack'
+        return utils.create_chat(system_prompt, body)
