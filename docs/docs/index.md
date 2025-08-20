@@ -1,3 +1,5 @@
+# Welcome to Safire
+
 <div align="center">
   <img src="img/safire_logo.png" width=500px>
 </div>
@@ -10,7 +12,7 @@
   <img src="img/safire_pipeline.png" width=400px>
 </div>
 
-# Installation
+## Installation
 
 Safire requires Python 3.9 or higher. To install the latest version from GitHub:
 
@@ -18,7 +20,7 @@ Safire requires Python 3.9 or higher. To install the latest version from GitHub:
 pip install --upgrade git+https://github.com/droyti46/safire.git
 ```
 
-# Quick Start
+## Quick Start
 
 ```python
 from safire import jailbreaking
@@ -38,8 +40,7 @@ attack_prompts = attack([
 
 The pipeline will return a list of dictionaries in the form `[{attack_name: "qwestions_puzzle_attack", "prompt": "..."}]`
 
-# Authors
-
+## Authors
 Developed by the team "Сидим не рыпаемся"
 
 <div align="center">
