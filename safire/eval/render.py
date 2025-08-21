@@ -62,7 +62,7 @@ def render_eval_summary(df: pd.DataFrame) -> HTML:
 
     judged = int(judged_mask.sum())
 
-    passes, fails, unknown = 0, 0, 0
+    passes, fails = 0, 0
     pass_flags = []
 
     if "result" in df.columns:
@@ -73,11 +73,8 @@ def render_eval_summary(df: pd.DataFrame) -> HTML:
                 passes += 1
             elif flag is False:
                 fails += 1
-            else:
-                unknown += 1
     else:
         pass_flags = [None] * total
-        unknown = total
 
     pass_rate = (passes / judged * 100.0) if judged else 0.0
     unique_attacks = df["attack_name"].nunique() if "attack_name" in df.columns else 0
@@ -308,7 +305,6 @@ def render_eval_summary(df: pd.DataFrame) -> HTML:
                 <div class="sub">
                     <span class="pill pill-pass">passed: {passes}</span>
                     &nbsp; <span class="pill pill-fail">failed: {fails}</span>
-                    &nbsp; <span class="pill pill-unk">unknown: {unknown}</span>
                 </div>
             </div>
             <div class="jv-card">

@@ -50,7 +50,7 @@ from safire import eval
 # Your model inference function
 def get_llm_response(messages: dict) -> str:
     outputs = pipe(
-        [{'system': messages['system'], 'user': messages['user']}],
+        messages,
         max_new_tokens=256,
     )
     return outputs[0]['generated_text'][-1]['content']
