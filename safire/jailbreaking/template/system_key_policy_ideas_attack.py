@@ -26,7 +26,9 @@ class SystemKeyPolicyIdeasAttack(RequiresUserOnlyAttack):
 
     def __init__(self):
         super().__init__()
-        self._system_prompt = utils.load_jailbreaking_template_prompt(self.get_filename_template())
+        self._system_prompt = utils.load_jailbreaking_template_prompt(self.get_filename_template('system'))
+        self._template = utils.load_jailbreaking_template_prompt(self.get_filename_template('user'))
 
     def apply(self, user_prompt: str) -> Dict[str, str]:
-        return utils.create_chat(self._system_prompt, user_prompt)
+        body = self._template.replace('[USER_PROMPT]', user_prompt)
+        return utils.create_chat(self._system_prompt, body)

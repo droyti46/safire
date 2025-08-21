@@ -50,16 +50,24 @@ def mask_random_words(user_prompt: str, n: int = 1) -> str:
     Examples:
         >>> mask_random_words("Hello world", n=1)
         '[Hello] world'
+
+        >>> mask_random_words("If we [have] already masked word", n=3)
+        >>> '[If] we [have] [already] masked [word]'
     '''
     words = user_prompt.split()
-
     if not words:
         return user_prompt
 
-    n = min(n, len(words))
-    indices = random.sample(range(len(words)), n)
+    # Available for masking (those that are not yet in parentheses)
+    available_indices = [i for i, w in enumerate(words) if not (w.startswith('[') and w.endswith(']'))]
 
-    for idx in indices:
+    if not available_indices:
+        return user_prompt
+
+    n = min(n, len(available_indices))
+    chosen_indices = random.sample(available_indices, n)
+
+    for idx in chosen_indices:
         words[idx] = f'[{words[idx]}]'
 
     return ' '.join(words)

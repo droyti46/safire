@@ -13,4 +13,8 @@
 #      Nikita Bakutov
 # =============================================================================
 
+# --- Datasets ---
+ADV_BENCH_PATH = 'hf://datasets/walledai/AdvBench/data/train-00000-of-00001.parquet'
+
+# --- Other constants
 LETTERS = 'abcdefghijklmnopqrstuvwxyz'

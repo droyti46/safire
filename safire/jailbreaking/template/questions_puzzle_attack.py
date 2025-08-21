@@ -64,15 +64,39 @@ class QuestionsPuzzleAttack(RequiresSystemAndUserAttack):
             Default is 3.
     '''
 
-    def __init__(self, random_masked_words_num: int = 3) -> None:
+    def __init__(self, random_masked_words_num: int = 3, user_prompt_template: str | None = None) -> None:
         super().__init__()
         self._random_masked_words_num = random_masked_words_num
-        self._template = utils.load_jailbreaking_template_prompt(self.get_filename_template())
+        self._template = utils.load_jailbreaking_template_prompt(self.get_filename_template('user'))
         self._questions_list = utils.load_jailbreaking_template_prompt('questions.txt').splitlines()
+        self._unsafe_words = utils.load_jailbreaking_template_prompt('unsafe_words.txt').split()
+
+        if user_prompt_template is not None:
+            for placeholder in ['[N]', '[ENCRYPTED_SENTENCE]', '[QUESTIONS]']:
+                if placeholder not in user_prompt_template:
+                    raise ValueError(f'The template must have a placeholder {placeholder}')
+            self._template = user_prompt_template
 
     def apply(self, system_prompt: str, user_prompt: str) -> Dict[str, str]:
-        # Mask random words
-        masked_user_prompt = utils.mask_random_words(user_prompt, n=self._random_masked_words_num)
+        # Mask all unsafe words
+        words = user_prompt.split()
+        masked_words = []
+        masked_user_prompt_parts = []
+
+        for w in words:
+            if w.lower().strip(".,!?") in self._unsafe_words:
+                masked_user_prompt_parts.append(f'[{w}]')
+                masked_words.append(w)
+            else:
+                masked_user_prompt_parts.append(w)
+
+        masked_user_prompt = ' '.join(masked_user_prompt_parts)
+
+        # If necessary, mask more random words.
+        already_masked = len(masked_words)
+        if already_masked < self._random_masked_words_num:
+            need_more = self._random_masked_words_num - already_masked
+            masked_user_prompt = utils.mask_random_words(masked_user_prompt, n=need_more)
 
         # Extract placeholders like [word]
         placeholders = re.findall(r'\[(.*?)\]', masked_user_prompt)

@@ -13,7 +13,8 @@
 #      Nikita Bakutov
 # =============================================================================
 
-from typing import Dict
+import os
+from typing import Dict, Literal
 from abc import ABC, abstractmethod
 
 from safire.utils import camel_to_snake
@@ -41,14 +42,17 @@ class PromptAttack(ABC):
         '''
         return camel_to_snake(self.__class__.__name__)
 
-    def get_filename_template(self) -> str:
+    def get_filename_template(self, role: Literal['user', 'system']) -> str:
         '''
         Returns the template filename of the attack.
 
         Returns:
             str: The attack template filename.
         '''
-        return self.get_name() + '.txt'
+        if role not in ('user', 'system'):
+            raise ValueError(f'Role must be "user" or "system", got "{role}"')
+        
+        return os.path.join(role, self.get_name() + '.txt')
 
 # --- Template attack classes ---
 
