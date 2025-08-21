@@ -14,7 +14,18 @@
 # =============================================================================
 
 # --- Datasets ---
+
+# AdvBench (https://huggingface.co/datasets/walledai/AdvBench)
 ADV_BENCH_PATH = 'hf://datasets/walledai/AdvBench/data/train-00000-of-00001.parquet'
 
-# --- Other constants
+# --- Other constants ---
+
+# English alphabet
 LETTERS = 'abcdefghijklmnopqrstuvwxyz'
+
+# light blue
+COLOR_LIGHT = '#02A0FF'
+# blue
+COLOR_BLUE  = '#130AFF'
+# violet
+COLOR_VIO   = '#9934FF'

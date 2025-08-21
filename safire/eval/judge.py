@@ -87,7 +87,7 @@ class CompositeJudge(Judge):
     
     def __init__(self, judges: Sequence[Judge], mode: Literal['and', 'or'] = 'and'):
         if not judges:
-            raise ValueError('CompositeJudge требует хотя бы одного judge.')
+            raise ValueError('CompositeJudge requires at least one judge.')
         if mode not in ('and', 'or'):
             raise ValueError(f'Mode muar be "and" or "or". Got: {mode}')
 
