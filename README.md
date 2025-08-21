@@ -48,7 +48,7 @@ The pipeline will return a list of dictionaries in the form `[{attack_name: "qwe
 from safire import eval
 
 # Your model inference function
-def get_llm_response(messages: dict) -> str:
+def get_llm_response(messages: list[dict]) -> str:
     outputs = pipe(
         messages,
         max_new_tokens=256,
@@ -77,7 +77,7 @@ render_eval_summary(result)
 ```
 
 <div align="center">
-  <img src="img/jailbreaking_eval_summary.png" width=500px>
+  <img src="img/jailbreaking_eval_summary.png" width=1000px>
 </div>
 
 
