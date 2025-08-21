@@ -40,12 +40,24 @@ attack_strategy = attack([
 ])
 ```
 
-The pipeline will return a list of dictionaries in the form `[{attack_name: "qwestions_puzzle_attack", "prompt": "..."}]`
+The pipeline will return a list of dictionaries in the form:
+```json
+[
+    {
+        "attack_name": "str",
+        "user_prompt": "str",
+        "attack_chat": {
+            "system": "str or missing",
+            "user": "str"
+        }
+    }
+]
+```
 
 ## Easily test your LLMs
 
 ```python
-from safire import eval
+from safire import evaluation
 
 # Your model inference function
 def get_llm_response(messages: list[dict]) -> str:
@@ -56,24 +68,20 @@ def get_llm_response(messages: list[dict]) -> str:
     return outputs[0]['generated_text'][-1]['content']
 
 # Run evaluation
-result = eval.run_eval(
+result = evaluation.run_eval(
     # Your model wrapper
     model_fn=get_llm_response,
     # Attacks to test
     attacks=attack_strategy,
     # Response evaluation criteria (you can write a custom)
-    judge=eval.CompositeJudge([
-        eval.KeywordJudge(['sorry', 'but', 'i', "cat't", 'help', 'with', 'that']),
-        eval.WordsCountJudge(min_words_count=20)
-    ], mode='and')
+    judge=evaluation.WordsCountJudge(min_words_count=20)
 )
 ```
 
 ## Get summary after testing
 
 ```python
-from safire.eval.render import render_eval_summary
-render_eval_summary(result)
+evaluation.render_eval_summary(result)
 ```
 
 <div align="center">
