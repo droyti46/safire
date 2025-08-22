@@ -30,22 +30,7 @@ def in_colab() -> bool:
     
 # --- Apply custom CSS ---
 
-if in_colab():
-    # Styles for Google Colab
-    HTML('''
-    <style>
-      .bar {
-          background: linear-gradient(135deg, #02A0FF 0%, #130AFF 50%, #9934FF 100%) !important;
-          border-radius: 999px !important;
-          height: 14px !important;
-      }
-      .bar-wrapper {
-          border-radius: 999px !important;
-          overflow: hidden !important;
-      }
-    </style>
-    ''')
-else:
+if not in_colab():
     # Styles for Jupyter (VS Code, JupyterLab, etc.)
     HTML('''
     <style>
