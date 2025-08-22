@@ -33,6 +33,9 @@ class PromptAttack(ABC):
     Abstract class for attack
     '''
 
+    def __init__(self, custom_name: str | None = None):
+        self._custom_name = custom_name
+
     def get_name(self) -> str:
         '''
         Returns the name of the attack.
@@ -40,6 +43,9 @@ class PromptAttack(ABC):
         Returns:
             str: The attack identifier.
         '''
+        if self._custom_name is not None:
+            return self._custom_name
+        
         return camel_to_snake(self.__class__.__name__)
 
     def get_filename_template(self, role: Literal['user', 'system']) -> str:
