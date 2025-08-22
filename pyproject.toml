@@ -35,4 +35,4 @@ packages = { find = {} }
 package-dir = {"" = "."}
 
 [tool.setuptools.package-data]
-"safire" = ["*.txt", "*.md"]
+"safire" = ["**/*.txt", "**/*.md"]
