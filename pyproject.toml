@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "safire"
+version = "0.0.1"
+authors = [
+    {name = "Nikita Bakutov", email = "nikitabakutov2008@gmail.com"}
+]
+description = "Library for testing of language models for jailbreaking"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+    "pandas>=2.2.0",
+    "tqdm>=4.67.0",
+    "ipywidgets>=8.1.0"
+]
+
+[project.urls]
+Homepage = "https://droyti46.github.io/safire/"
+Repository = "https://github.com/droyti46/safire/"
+"Bug Tracker" = "https://github.com/droyti46/safire/issues"
+
+[tool.setuptools]
+packages = ["safire"]
+package-dir = {"" = "."}
+
+[tool.setuptools.package-data]
+"safire" = ["*.py", "*.txt", "*.md"]
