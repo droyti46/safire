@@ -14,7 +14,7 @@
 # =============================================================================
 
 import os
-from typing import Dict, Literal
+from typing import Dict, Literal, Optional
 from abc import ABC, abstractmethod
 
 from safire.utils import camel_to_snake
@@ -26,6 +26,39 @@ __all__ = [
     'AssignedPromptAttack'
 ]
 
+# --- Custom name decorator ---
+
+def with_custom_name(custom_name: Optional[str] = None):
+    '''
+    Class decorator that automatically sets a custom name for attack classes.
+    
+    Args:
+        custom_name (str, optional):
+            The custom name to assign to the attack class. If None,
+            the class will use its default name conversion.
+    
+    Returns:
+        A decorated class with the custom name preset.
+    '''
+    def decorator(cls):
+        # Store the original __init__ method
+        original_init = cls.__init__
+        
+        def new_init(self, *args, **kwargs):
+            # If custom_name was provided to the decorator, set it
+            if custom_name is not None:
+                kwargs['custom_name'] = custom_name
+            # Call the base class __init__
+            super(cls, self).__init__(*args, **kwargs)
+            # Call the original __init__ of the derived class if it exists
+            if original_init is not object.__init__:
+                original_init(self, *args, **kwargs)
+        
+        cls.__init__ = new_init
+        return cls
+    
+    return decorator
+
 # --- Base class ---
 
 class PromptAttack(ABC):
@@ -33,7 +66,7 @@ class PromptAttack(ABC):
     Abstract class for attack
     '''
 
-    def __init__(self, custom_name: str | None = None):
+    def __init__(self, custom_name: Optional[str] = None):
         self._custom_name = custom_name
 
     def get_name(self) -> str:
@@ -51,6 +84,9 @@ class PromptAttack(ABC):
     def get_filename_template(self, role: Literal['user', 'system']) -> str:
         '''
         Returns the template filename of the attack.
+
+        Args:
+            role (str): The template role ('user' or 'system')
 
         Returns:
             str: The attack template filename.
