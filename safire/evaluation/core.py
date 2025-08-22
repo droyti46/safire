@@ -62,22 +62,6 @@ def run_eval(
             - 'model_response': Model's response to the attack
             - 'result': Judge's evaluation result (if judge provided)
     '''
-    # --- Apply custom CSS ---
-    if not in_colab():
-        # Styles for Jupyter (VS Code, JupyterLab, etc.)
-        HTML('''
-        <style>
-        div.jp-OutputArea .progress {
-            border-radius: 999px !important;
-            overflow: hidden !important;
-        }
-        div.jp-OutputArea .progress-bar {
-            background: linear-gradient(135deg, #02A0FF 0%, #130AFF 50%, #9934FF 100%) !important;
-            transition: width 0.4s ease !important;
-        }
-        </style>
-        ''')
-
     rows = []
 
     # Process each attack
