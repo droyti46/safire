@@ -31,8 +31,8 @@ Repository = "https://github.com/droyti46/safire/"
 "Bug Tracker" = "https://github.com/droyti46/safire/issues"
 
 [tool.setuptools]
-packages = ["safire"]
+packages = { find = {} }
 package-dir = {"" = "."}
 
 [tool.setuptools.package-data]
-"safire" = ["*.py", "*.txt", "*.md"]
+"safire" = ["*.txt", "*.md"]
