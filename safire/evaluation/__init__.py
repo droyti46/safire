@@ -5,8 +5,10 @@ from safire.evaluation.judge import (
     WordsCountJudge,
     CompositeJudge
 )
+from safire.evaluation import datasets
 
 __all__ = [
+    'datasets',
     'run_eval',
     'render_eval_summary',
     'KeywordJudge',

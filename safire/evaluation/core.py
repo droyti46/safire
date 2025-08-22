@@ -16,22 +16,51 @@
 from typing import Callable, List, Dict, Optional, Any
 
 import pandas as pd
-from tqdm.notebook import tqdm
+from tqdm.auto import tqdm
 from IPython.display import HTML
 
-# Apply custom styling for progress bars
-HTML('''
-<style>
-div.jp-OutputArea .progress {
-    border-radius: 999px !important;
-    overflow: hidden !important;
-}
-div.jp-OutputArea .progress-bar {
-    background: linear-gradient(135deg, #02A0FF 0%, #130AFF 50%, #9934FF 100%) !important;
-    transition: width 0.4s ease !important;
-}
-</style>
-''')
+# --- Detect environment ---
+
+def in_colab() -> bool:
+    try:
+        import google.colab  # type: ignore
+        return True
+    except ImportError:
+        return False
+    
+# --- Apply custom CSS ---
+
+if in_colab():
+    # Styles for Google Colab
+    HTML('''
+    <style>
+      .bar {
+          background: linear-gradient(135deg, #02A0FF 0%, #130AFF 50%, #9934FF 100%) !important;
+          border-radius: 999px !important;
+          height: 14px !important;
+      }
+      .bar-wrapper {
+          border-radius: 999px !important;
+          overflow: hidden !important;
+      }
+    </style>
+    ''')
+else:
+    # Styles for Jupyter (VS Code, JupyterLab, etc.)
+    HTML('''
+    <style>
+    div.jp-OutputArea .progress {
+        border-radius: 999px !important;
+        overflow: hidden !important;
+    }
+    div.jp-OutputArea .progress-bar {
+        background: linear-gradient(135deg, #02A0FF 0%, #130AFF 50%, #9934FF 100%) !important;
+        transition: width 0.4s ease !important;
+    }
+    </style>
+    ''')
+
+# --- Main evaluation function ---
 
 def run_eval(
     model_fn: Callable[[Dict[str, str]], str],
