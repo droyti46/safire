@@ -64,8 +64,8 @@ class QuestionsPuzzleAttack(RequiresSystemAndUserAttack):
             Default is 3.
     '''
 
-    def __init__(self, random_masked_words_num: int = 3, user_prompt_template: str | None = None) -> None:
-        super().__init__()
+    def __init__(self, random_masked_words_num: int = 3, user_prompt_template: str | None = None, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
         self._random_masked_words_num = random_masked_words_num
         self._template = utils.load_jailbreaking_template_prompt(self.get_filename_template('user'))
         self._questions_list = utils.load_jailbreaking_template_prompt('questions.txt').splitlines()

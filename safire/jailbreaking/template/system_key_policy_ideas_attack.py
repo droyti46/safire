@@ -24,8 +24,8 @@ class SystemKeyPolicyIdeasAttack(RequiresUserOnlyAttack):
     the "Key Policy Ideas".
     '''
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self._system_prompt = utils.load_jailbreaking_template_prompt(self.get_filename_template('system'))
         self._template = utils.load_jailbreaking_template_prompt(self.get_filename_template('user'))
 

@@ -43,8 +43,10 @@ class ConcatAttack(RequiresSystemAndUserAttack):
         first_attack: PromptAttack,
         second_attack: PromptAttack,
         replace_system_prompt: bool = False,
+        *args,
+        **kwargs
     ) -> None:
-        super().__init__()
+        super().__init__(*args, **kwargs)
         self._first = first_attack
         self._second = second_attack
         self._replace_system_prompt = replace_system_prompt

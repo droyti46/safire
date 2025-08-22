@@ -83,7 +83,7 @@ class AttackPipeline:
             raise ValueError(f'Unsupported attack type: {type(attack).__name__}')
 
         return {
-            'attack_name': attack.get_name(),
+            'attack_name': attack.get_display_name(),
             'user_prompt': user_prompt if user_prompt else attack_chat.get('user', ''),
             'attack_chat': attack_chat,
         }
