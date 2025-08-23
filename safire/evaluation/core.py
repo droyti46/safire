@@ -106,7 +106,7 @@ def run_eval(
 
         # Apply judge if provided
         if judge:
-            row['result'] = judge(response)
+            row['result'] = judge(attack['user_prompt'], response)
 
         rows.append(row)
 
