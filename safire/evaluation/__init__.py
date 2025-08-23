@@ -3,6 +3,7 @@ from safire.evaluation.render import render_eval_summary
 from safire.evaluation.judge import (
     KeywordJudge,
     WordsCountJudge,
+    LLMJudge,
     CompositeJudge
 )
 from safire.evaluation import datasets

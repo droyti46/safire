@@ -203,4 +203,5 @@ __marimo__/
 .streamlit/secrets.toml
 
 # Project
-test.ipynb
+*.ipynb
+*.csv
