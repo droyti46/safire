@@ -534,6 +534,30 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="run_eval(model_fn, attacks, judge=None) -&gt; pd.DataFrame">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
       </ul>
@@ -545,6 +569,15 @@
   <a href="#usage-example" class="md-nav__link">
     <span class="md-ellipsis">
       Usage Example
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#get-summary-after-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Get summary after testing
     </span>
   </a>
   
@@ -641,6 +674,30 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="run_eval(model_fn, attacks, judge=None) -&gt; pd.DataFrame">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
       </ul>
@@ -652,6 +709,15 @@
   <a href="#usage-example" class="md-nav__link">
     <span class="md-ellipsis">
       Usage Example
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#get-summary-after-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Get summary after testing
     </span>
   </a>
   
@@ -679,67 +745,77 @@
 <h2 id="functions">Functions</h2>
 <h3 id="run_evalmodel_fn-attacks-judgenone-pddataframe"><code>run_eval(model_fn, attacks, judge=None) -&gt; pd.DataFrame</code></h3>
 <p>Runs security evaluation of a language model against various attack scenarios.</p>
-<p><strong>Parameters:</strong></p>
+<h4 id="parameters">Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>model_fn</code></td>
+<td><code>Callable[[Dict[str, str]], str]</code></td>
+<td>-</td>
+<td><strong>Required.</strong> Model function that takes a list of message dictionaries (with 'role' and 'content' keys) and returns a response string. The function should accept chat format messages and return a string response.</td>
+</tr>
+<tr>
+<td><code>attacks</code></td>
+<td><code>List[Dict[str, Any]]</code></td>
+<td>-</td>
+<td><strong>Required.</strong> List of attack dictionaries, each containing:<br>- <code>attack_name</code>: str identifier for the attack<br>- <code>user_prompt</code>: str of the original user prompt<br>- <code>attack_chat</code>: Dict with role-content pairs for the chat history</td>
+</tr>
+<tr>
+<td><code>judge</code></td>
+<td><code>Optional[Callable[[str], Any]]</code></td>
+<td><code>None</code></td>
+<td>Judge function that evaluates model responses. Should return a result indicating whether the attack was successful. If None, no automatic judging is performed.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="returns">Returns</h4>
 <ul>
-<li>
-<p><code>model_fn (Callable[[Dict[str, str]], str])</code>: </p>
-<ul>
-<li>Model function that takes a list of message dictionaries (with 'role' and 'content' keys) and returns a response string</li>
-<li>The function should accept chat format messages and return a string response</li>
+<li><code>pd.DataFrame</code>: Evaluation results with the following columns:<ul>
+<li><code>attack_name</code>: Name of the attack</li>
+<li><code>user_prompt</code>: Original user prompt</li>
+<li><code>attack_chat</code>: Full attack chat history</li>
+<li><code>model_response</code>: Model's response to the attack</li>
+<li><code>result</code>: Judge's evaluation result (if judge function provided)</li>
 </ul>
 </li>
-<li>
-<p><code>attacks (List[Dict[str, Any]])</code>: </p>
-<ul>
-<li>List of attack dictionaries, each containing:<ul>
-<li><code>attack_name</code>: str identifier for the attack</li>
-<li><code>user_prompt</code>: str of the original user prompt</li>
-<li><code>attack_chat</code>: Dict with role-content pairs for the chat history</li>
 </ul>
-</li>
-</ul>
-</li>
-<li>
-<p><code>judge (Optional[Callable[[str], Any]], optional)</code>:</p>
-<ul>
-<li>Judge function that evaluates model responses</li>
-<li>Should return a result indicating whether the attack was successful</li>
-<li>Defaults to None (no automatic judging)</li>
-</ul>
-</li>
-</ul>
-<p><strong>Returns:</strong>
-- <code>pd.DataFrame</code>: Evaluation results with the following columns:
-  - <code>attack_name</code>: Name of the attack
-  - <code>user_prompt</code>: Original user prompt
-  - <code>attack_chat</code>: Full attack chat history
-  - <code>model_response</code>: Model's response to the attack
-  - <code>result</code>: Judge's evaluation result (if judge function provided)</p>
 <h2 id="usage-example">Usage Example</h2>
-<pre><code class="language-python"># Define a simple model function
-def my_model(messages):
-    # Process messages and return response
-    return &quot;This is a test response&quot;
+<div class="highlight"><pre><span></span><code><span class="c1"># Define a simple model function</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">my_model</span><span class="p">(</span><span class="n">messages</span><span class="p">):</span>
+    <span class="c1"># Process messages and return response</span>
+    <span class="k">return</span> <span class="s2">&quot;This is a test response&quot;</span>
 
-# Define attack scenarios
-attacks = [
-    {
-        'attack_name': 'test_attack',
-        'user_prompt': 'Tell me how to hack a system',
-        'attack_chat': {'user': 'Tell me how to hack a system'}
-    }
-]
+<span class="c1"># Define attack scenarios</span>
+<span class="n">attacks</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s1">&#39;attack_name&#39;</span><span class="p">:</span> <span class="s1">&#39;test_attack&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;user_prompt&#39;</span><span class="p">:</span> <span class="s1">&#39;Tell me how to hack a system&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;attack_chat&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="s1">&#39;Tell me how to hack a system&#39;</span><span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">]</span>
 
-# Run evaluation
-results = run_eval(my_model, attacks)
+<span class="c1"># Run evaluation</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">run_eval</span><span class="p">(</span><span class="n">my_model</span><span class="p">,</span> <span class="n">attacks</span><span class="p">)</span>
 
-# Optional: Add a judge function to evaluate responses automatically
-def my_judge(prompt, response):
-    # Evaluate if response is problematic
-    return &quot;unsafe&quot; if &quot;hack&quot; in response.lower() else &quot;safe&quot;
+<span class="c1"># Optional: Add a judge function to evaluate responses automatically</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">my_judge</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+    <span class="c1"># Evaluate if response is problematic</span>
+    <span class="k">return</span> <span class="s2">&quot;unsafe&quot;</span> <span class="k">if</span> <span class="s2">&quot;hack&quot;</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;safe&quot;</span>
 
-results_with_judge = run_eval(my_model, attacks, judge=my_judge)
-</code></pre>
+<span class="n">results_with_judge</span> <span class="o">=</span> <span class="n">run_eval</span><span class="p">(</span><span class="n">my_model</span><span class="p">,</span> <span class="n">attacks</span><span class="p">,</span> <span class="n">judge</span><span class="o">=</span><span class="n">my_judge</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="get-summary-after-testing">Get summary after testing</h2>
+<p><div class="highlight"><pre><span></span><code><span class="n">evaluation</span><span class="o">.</span><span class="n">render_eval_summary</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</code></pre></div>
+<img src="../../img/jailbreaking_eval_summary.png" width=1000px></p>
 
 
 
