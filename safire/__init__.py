@@ -1,4 +1,10 @@
 import importlib
+from importlib.metadata import version, PackageNotFoundError
+
+try:
+    __version__ = version('safire-py')
+except PackageNotFoundError:
+    __version__ = '0.0.0'
 
 __all__ = ['jailbreaking', 'evaluation']
 

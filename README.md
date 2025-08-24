@@ -18,6 +18,12 @@ Safire requires Python 3.9 or higher. To install the latest version from GitHub:
 pip install --upgrade git+https://github.com/droyti46/safire.git
 ```
 
+Or install from PyPi:
+
+```bash
+pip install safire-py
+```
+
 ## Documentation
 
 The full documentation is available at https://droyti46.github.io/safire/.

@@ -3,8 +3,8 @@ requires = ["setuptools>=42", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "safire"
-version = "0.0.3"
+name = "safire-py"
+version = "0.0.6"
 authors = [
     {name = "Nikita Bakutov", email = "nikitabakutov2008@gmail.com"}
 ]
@@ -20,7 +20,7 @@ classifiers = [
 ]
 
 dependencies = [
-    "pandas>=2.2.0",
+    "pandas>=1.5.3",
     "tqdm>=4.67.0"
 ]
 
@@ -34,4 +34,4 @@ packages = { find = {} }
 package-dir = {"" = "."}
 
 [tool.setuptools.package-data]
-"safire" = ["**/*.txt", "**/*.md"]
+"safire" = ["img/*.png", "**/*.txt", "**/*.md"]

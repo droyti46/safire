@@ -2,6 +2,8 @@ site_name: Safire
 
 theme:
   name: material
+  extra_css:
+    - stylesheets/extra.css
   logo: img/logo.png
   palette:
     - scheme: slate
@@ -10,4 +12,16 @@ theme:
 nav:
   - Home: index.md
   - Jailbreaking:
-      - QwestionsPuzzleAttack: jailbreakings/qwestions_puzzle_attack.md
+    - AttackPipeline: jailbreaking/pipeline.md
+    - Attacks:
+      - ConcatAttack: jailbreaking/attacks/concat_attack.md
+      - QuestionsPuzzleAttack: jailbreaking/attacks/questions_puzzle_attack.md
+      - SystemKeyPolicyIdeasAttack: jailbreaking/attacks/system_key_policy_ideas_attack.md
+  - Evaluation:
+    - Run Eval: evaluation/run_eval.md
+    - Judge: evaluation/judge.md
+
+markdown_extensions:
+  - pymdownx.highlight:
+      use_pygments: true
+  - pymdownx.superfences
