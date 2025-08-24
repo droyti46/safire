@@ -10,7 +10,7 @@
   <img src="img/safire_pipeline.png" width=400px>
 </div>
 
-# Installation
+## Installation
 
 Safire requires Python 3.9 or higher. To install the latest version from GitHub:
 
@@ -18,11 +18,11 @@ Safire requires Python 3.9 or higher. To install the latest version from GitHub:
 pip install --upgrade git+https://github.com/droyti46/safire.git
 ```
 
-# Documentation
+## Documentation
 
 The full documentation is available at https://droyti46.github.io/safire/.
 
-# Quick Start
+## Quick Start
 
 ```python
 from safire import jailbreaking
@@ -54,7 +54,7 @@ The pipeline will return a list of dictionaries in the form:
 ]
 ```
 
-## Easily test your LLMs
+### Easily test your LLMs
 
 ```python
 from safire import evaluation
@@ -78,7 +78,7 @@ result = evaluation.run_eval(
 )
 ```
 
-## Get summary after testing
+### Get summary after testing
 
 ```python
 evaluation.render_eval_summary(result)
@@ -89,7 +89,7 @@ evaluation.render_eval_summary(result)
 </div>
 
 
-# Authors
+## Authors
 
 Developed by the team "Сидим не рыпаемся"
 
