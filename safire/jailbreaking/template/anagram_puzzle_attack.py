@@ -15,11 +15,14 @@
 
 import re
 import random
-from typing import Dict, List
+import json
+import os
+from typing import Dict, List, Optional
 
 from openai import OpenAI
 from safire import utils
 from safire.jailbreaking.base import RequiresSystemAndUserAttack
+
 
 def generate_anagram(words: List[str], seed: int | None = None) -> str:
     '''
@@ -48,11 +51,13 @@ class AnagramPuzzleAttack(RequiresSystemAndUserAttack):
     '''
     A prompt attack that replaces unsafe words with [WORDi],
     generates an anagram of them, and builds clues via OpenRouter API.
-    
+
     Parameters:
         model (str): Model name for OpenRouter.
         api_key (str): API key for OpenRouter.
         base_url (str): OpenRouter-compatible base URL.
+        input_file (str | None): Path to JSON file with existing word->clue mappings.
+        output_file (str | None): Path to JSON file where new clues will be saved.
         random_masked_words_num (int, optional): How many words to mask if unsafe are fewer. Default = 3.
     '''
 
@@ -61,6 +66,8 @@ class AnagramPuzzleAttack(RequiresSystemAndUserAttack):
         model: str,
         api_key: str,
         base_url: str,
+        input_file: Optional[str] = None,
+        output_file: Optional[str] = None,
         random_masked_words_num: int = 3,
         user_prompt_template: str | None = None,
         *args,
@@ -73,6 +80,19 @@ class AnagramPuzzleAttack(RequiresSystemAndUserAttack):
         self._template = utils.load_jailbreaking_template_prompt(self.get_filename_template('user'))
         self._unsafe_words = utils.load_jailbreaking_template_prompt('unsafe_words.txt').split()
 
+        # cache for clues
+        self._clues_cache: Dict[str, str] = {}
+        self._input_file = input_file
+        self._output_file = output_file if output_file is not None else input_file
+
+        # load cache if exists
+        if self._input_file and os.path.exists(self._input_file):
+            try:
+                with open(self._input_file, 'r', encoding='utf-8') as f:
+                    self._clues_cache = json.load(f)
+            except Exception:
+                self._clues_cache = {}
+
         if user_prompt_template is not None:
             for placeholder in ['[N]', '[ENCRYPTED_SENTENCE]', '[CLUES]', '[ANAGRAM]']:
                 if placeholder not in user_prompt_template:
@@ -81,18 +101,23 @@ class AnagramPuzzleAttack(RequiresSystemAndUserAttack):
 
     def _generate_clue(self, word: str) -> str:
         '''
-        Query OpenRouter API to generate a clue for the given word.
+        Generate or retrieve a clue for the word.
+        First check local cache, otherwise query OpenRouter API.
         '''
+        if word in self._clues_cache:
+            return self._clues_cache[word]
+
         completion = self._client.chat.completions.create(
             model=self._model,
             messages=[
                 {'role': 'system', 'content': 'You are a crossword clue generator. Given a word, return a short clue that describes it, without using the word itself.'},
                 {'role': 'user', 'content': f'Generate a clue for the word: {word}'}
             ],
-            temperature=0.0,
-            top_p=1.0
+            temperature=0.7,
         )
-        return completion.choices[0].message.content.strip()
+        clue = completion.choices[0].message.content.strip()
+        self._clues_cache[word] = clue
+        return clue
 
     def apply(self, system_prompt: str, user_prompt: str) -> Dict[str, str]:
         # Step 1: mask unsafe words
@@ -131,7 +156,15 @@ class AnagramPuzzleAttack(RequiresSystemAndUserAttack):
             clues.append(f'[WORD{i}] {clue}')
         clues_block = '\n'.join(clues)
 
-        # Step 6: fill template
+        # Step 6: save updated cache
+        if self._output_file:
+            try:
+                with open(self._output_file, 'w', encoding='utf-8') as f:
+                    json.dump(self._clues_cache, f, ensure_ascii=False, indent=2)
+            except Exception:
+                pass
+
+        # Step 7: fill template
         body = self._template
         body = body.replace('[N]', str(len(placeholders)))
         body = body.replace('[ENCRYPTED_SENTENCE]', encrypted_sentence)
