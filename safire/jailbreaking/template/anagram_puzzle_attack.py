@@ -20,9 +20,10 @@ import os
 from typing import Dict, List, Optional
 
 from openai import OpenAI
+
+from safire import constants
 from safire import utils
 from safire.jailbreaking.base import RequiresSystemAndUserAttack
-
 
 def generate_anagram(words: List[str], seed: int | None = None) -> str:
     '''
@@ -110,7 +111,7 @@ class AnagramPuzzleAttack(RequiresSystemAndUserAttack):
         completion = self._client.chat.completions.create(
             model=self._model,
             messages=[
-                {'role': 'system', 'content': 'You are a crossword clue generator. Given a word, return a short clue that describes it, without using the word itself.'},
+                {'role': 'system', 'content': constants.CLUE_GENERATION_SYSTEM_PROMPT},
                 {'role': 'user', 'content': f'Generate a clue for the word: {word}'}
             ],
             temperature=0.7,

@@ -29,3 +29,16 @@ COLOR_LIGHT = '#02A0FF'
 COLOR_BLUE  = '#130AFF'
 # violet
 COLOR_VIO   = '#9934FF'
+
+CLUE_GENERATION_SYSTEM_PROMPT = '''You are a crossword clue generator. Given a word, return a short clue that describes it without using the word itself. Additionally, your response must state the number of letters in the word and its part of speech (e.g., noun, verb, adjective, etc.). The clue should be concise, clever, and typical of crossword puzzle style.
+
+Examples:
+
+Word: abuse
+5-letter noun or verb for harmful or improper use, often causing damage or suffering.
+
+Word: children
+8-letter plural noun for young humans, often requiring protection or special care.
+
+Word: phishing
+8-letter noun for digital fraud attempts to steal sensitive information.'''
