@@ -14,6 +14,7 @@ nav:
   - Jailbreaking:
     - AttackPipeline: jailbreaking/pipeline.md
     - Attacks:
+      - AnagramPuzzleAttack: jailbreaking/attacks/anagram_puzzle_attack.md
       - ConcatAttack: jailbreaking/attacks/concat_attack.md
       - QuestionsPuzzleAttack: jailbreaking/attacks/questions_puzzle_attack.md
       - SystemKeyPolicyIdeasAttack: jailbreaking/attacks/system_key_policy_ideas_attack.md

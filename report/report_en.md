@@ -95,21 +95,27 @@ result = evaluation.run_eval(
 
 ### Jailbreak set
 
-All attacks implement the **AttackPrompt** interface. Currently, three types are available in the library:
+All attacks implement the **AttackPrompt** interface. Currently, four types are available in the library:
 
-#### 1. QuestionsPuzzleAttack
+#### 1. AnagramPuzzleAttack
 
-![](https://github.com/droyti46/safire/blob/main/img/questions_puzzle_attack.png?raw=true)
+[Detailed documentation](https://droyti46.github.io/safire/jailbreaking/attacks/anagram_puzzle_attack/)
+This attack is a direct implementation of the technique described in the research paper [PUZZLED: Jailbreaking LLMs through Word-Based Puzzles](https://arxiv.org/html/2508.01306v1)
 
-[Detailed documentation](https://droyti46.github.io/safire/jailbreaking/attacks/questions_puzzle_attack/)&#x20;
-Based on the paper [PUZZLED: Jailbreaking LLMs through Word-Based Puzzles](https://arxiv.org/html/2508.01306v1).
 Essence of the method:
 
 1. **Masking keywords:**
    Select keywords from a harmful instruction, then mask them with indexed placeholders `[WORD1]`, `[WORD2]`, etc.
 
 2. **Building a puzzle:**
-   The masked words are embedded into a word search, anagram, or crossword format.
+   The masked words are embedded into a anagram.
+
+#### 2. QuestionsPuzzleAttack
+
+![](https://github.com/droyti46/safire/blob/main/img/questions_puzzle_attack.png?raw=true)
+
+[Detailed documentation](https://droyti46.github.io/safire/jailbreaking/attacks/questions_puzzle_attack/)
+Based on the paper [PUZZLED: Jailbreaking LLMs through Word-Based Puzzles](https://arxiv.org/html/2508.01306v1).
 
 **Our modification:**
 
@@ -119,11 +125,9 @@ Essence of the method:
 
 Although the PUZZLED attack was proposed earlier, our practical implementation is novel, as is our question-based modification. The primary novelty of our work lies in the creation of the unified Safire framework, which formalizes and automates the process of testing LLMs for vulnerabilities and which we provide to the AI community as a user-friendly library.
 
-Unfortunately, the paper did not include source code for prompt generation, and we didn’t have time during the hackathon to replicate it. Therefore, we cannot make a direct comparison. However, our modification significantly simplifies the generation of adversarial prompts.
-
 ---
 
-#### 2. SystemKeyPolicyIdeasAttack
+#### 3. SystemKeyPolicyIdeasAttack
 
 [Detailed documentation](https://droyti46.github.io/safire/jailbreaking/attacks/system_key_policy_ideas_attack/)&#x20;
 Idea taken from [an article on Habr](https://habr.com/ru/companies/bar/articles/934750/).
@@ -134,10 +138,9 @@ Method:
 
 ---
 
-#### 3. ConcatAttack
+#### 4. ConcatAttack
 
 ![](https://github.com/droyti46/safire/blob/main/img/concat_attack.png?raw=true)
-
 [Detailed documentation](https://droyti46.github.io/safire/jailbreaking/attacks/concat_attack/)
 
 * A jailbreak combining two other jailbreaks.
@@ -155,9 +158,10 @@ We implemented a fully reproducible, deterministic end-to-end [notebook with com
 **Attack types:**
 
 1. QuestionsPuzzleAttack (we used 5 masked words)
-2. SystemKeyPolicyIdeasAttack
-3. ConcatAttack with system\_prompt
-4. ConcatAttack without system\_prompt
+2. AnagramPuzzleAttack
+3. SystemKeyPolicyIdeasAttack
+4. ConcatAttack with system\_prompt
+5. ConcatAttack without system\_prompt
 
 **Parameters:**
 

@@ -17,6 +17,13 @@ import re
 import random
 import importlib
 from typing import Dict
+from functools import lru_cache
+
+import spacy
+
+@lru_cache(maxsize=None)
+def get_nlp():
+    return spacy.load('en_core_web_sm')
 
 def set_seed(seed: int) -> None:
     '''
@@ -71,6 +78,40 @@ def mask_random_words(user_prompt: str, n: int = 1) -> str:
         words[idx] = f'[{words[idx]}]'
 
     return ' '.join(words)
+
+def mask_nouns_and_verbs(text: str, n: int) -> str:
+    '''
+    Deterministically masks the longest nouns and verbs in the text.
+
+    Parameters:
+        text (str): Input sentence with optional already masked words.
+        n (int): Number of additional words to mask.
+
+    Returns:
+        str: Text with selected words wrapped in square brackets.
+    '''
+
+    nlp = get_nlp()
+    candidates = []
+    words = text.split()
+
+    for word in words:
+        if word.startswith('[') and word.endswith(']'):
+            continue
+        doc = nlp(word)
+        if doc[0].pos_ in ('NOUN', 'PROPN', 'VERB'):
+            candidates.append(word)
+
+    # Sort by word length (long ones are a priority)
+    candidates = sorted(candidates, key=len, reverse=True)
+    to_mask = candidates[:n]
+
+    masked_text = text
+    for word in to_mask:
+        # Using regex to replace only one occurrence
+        masked_text = masked_text.replace(word, f'[{word}]', 1)
+
+    return masked_text
 
 def load_jailbreaking_template_prompt(name: str) -> str:
     '''

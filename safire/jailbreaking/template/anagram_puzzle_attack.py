@@ -70,6 +70,7 @@ class AnagramPuzzleAttack(RequiresSystemAndUserAttack):
         input_file: Optional[str] = None,
         output_file: Optional[str] = None,
         random_masked_words_num: int = 3,
+        smart_masking: bool = False,
         user_prompt_template: str | None = None,
         *args,
         **kwargs
@@ -78,6 +79,7 @@ class AnagramPuzzleAttack(RequiresSystemAndUserAttack):
         self._model = model
         self._client = OpenAI(base_url=base_url, api_key=api_key)
         self._random_masked_words_num = random_masked_words_num
+        self._smart_masking = smart_masking
         self._template = utils.load_jailbreaking_template_prompt(self.get_filename_template('user'))
         self._unsafe_words = utils.load_jailbreaking_template_prompt('unsafe_words.txt').split()
 
@@ -139,7 +141,11 @@ class AnagramPuzzleAttack(RequiresSystemAndUserAttack):
         already_masked = len(masked_words)
         if already_masked < self._random_masked_words_num:
             need_more = self._random_masked_words_num - already_masked
-            masked_user_prompt = utils.mask_random_words(masked_user_prompt, n=need_more)
+            if self._smart_masking:
+                masked_user_prompt = utils.mask_nouns_and_verbs(masked_user_prompt, n=need_more)
+            else:
+                masked_user_prompt = utils.mask_random_words(masked_user_prompt, n=need_more)
+
 
         # Step 3: extract placeholders
         placeholders = re.findall(r'\[(.*?)\]', masked_user_prompt)
