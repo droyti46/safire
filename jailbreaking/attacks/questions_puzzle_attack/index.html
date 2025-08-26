@@ -339,6 +339,29 @@
   
   
     <li class="md-nav__item">
+      <a href="../anagram_puzzle_attack/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AnagramPuzzleAttack
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../concat_attack/" class="md-nav__link">
         
   
@@ -987,6 +1010,12 @@ def get_jailbreaking(user_prompt: str, n: int) -> str:
 <td><code>int</code></td>
 <td><code>3</code></td>
 <td>Number of random words to mask in addition to unsafe words</td>
+</tr>
+<tr>
+<td><code>smart_masking</code></td>
+<td><code>bool</code></td>
+<td><code>False</code></td>
+<td>If True, uses linguistic analysis (spaCy) to mask nouns and verbs deterministically. (required <code>pip install spacy</code> and <code>python -m spacy download en_core_web_sm</code>)</td>
 </tr>
 <tr>
 <td><code>user_prompt_template</code></td>
