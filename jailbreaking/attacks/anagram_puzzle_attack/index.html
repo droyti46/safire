@@ -869,6 +869,7 @@
   <h1>AnagramPuzzleAttack</h1>
 
 <h2 id="overview">Overview</h2>
+<p><img alt="" src="https://arxiv.org/html/2508.01306v1/figures/puzzled_method_enlarge.png" /></p>
 <p><code>AnagramPuzzleAttack</code> is a sophisticated jailbreaking attack that transforms user prompts into an encrypted puzzle format using anagrams and word-based clues. This attack is a direct implementation of the technique described in the research paper <strong><a href="https://arxiv.org/html/2508.01306v1">PUZZLED: Jailbreaking LLMs through Word-Based Puzzles</a></strong>. It is designed to bypass content filters by obfuscating sensitive words and requiring the model to reconstruct the original prompt through a decoding process involving an anagram and contextual clues.</p>
 <h2 id="class-definition">Class Definition</h2>
 <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">AnagramPuzzleAttack</span><span class="p">(</span><span class="n">RequiresSystemAndUserAttack</span><span class="p">)</span>
