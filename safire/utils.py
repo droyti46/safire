@@ -19,7 +19,10 @@ import importlib
 from typing import Dict
 from functools import lru_cache
 
-import spacy
+try:
+    import spacy
+except ImportError:
+    pass
 
 @lru_cache(maxsize=None)
 def get_nlp():
